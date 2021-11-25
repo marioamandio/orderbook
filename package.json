@@ -1,6 +1,6 @@
 {
   "name": "kraken-assessment",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "homepage": "https://marioamandio.github.io/orderbook/",
   "scripts": {
     "dev": "vite",
