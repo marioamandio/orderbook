@@ -28,6 +28,7 @@ const StyledTable = styled(TableContainer)({
   "&&&& .MuiTableCell-root": {
     color: "inherit",
     border: 0,
+    padding: 8,
   },
 });
 
