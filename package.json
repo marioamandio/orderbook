@@ -1,11 +1,12 @@
 {
   "name": "kraken-assessment",
   "version": "0.0.0",
+  "homepage": "https://marioamandio.github.io/orderbook/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "serve": "vite preview"
   },
   "dependencies": {
