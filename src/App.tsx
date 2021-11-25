@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 import Header from "./Header";
-import OrderBook from "./Table";
+import OrderBook from "./Orderbook";
 
 const StyledApp = styled("div")({
   background: "#0f4555",

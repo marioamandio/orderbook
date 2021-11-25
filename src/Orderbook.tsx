@@ -43,7 +43,7 @@ const updateOrders = (
 
 const socket = new WebSocket("wss://www.cryptofacilities.com/ws/v1");
 
-const OrderBook = () => {
+const OrderBookComponent = () => {
   const [isPaused, setPause] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Event | null>(null);
@@ -200,4 +200,4 @@ const OrderBook = () => {
   );
 };
 
-export default OrderBook;
+export default OrderBookComponent;
