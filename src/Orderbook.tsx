@@ -103,21 +103,16 @@ const OrderBookComponent = () => {
   }
 
   const tableHeaders = () => {
-    if (isLargeScreen) {
-      return (
-        <TableRow>
-          <TableCell align="right">Size</TableCell>
-          <TableCell align="right">Price</TableCell>
-          <TableCell align="right">Price</TableCell>
-          <TableCell align="right">Size</TableCell>
-        </TableRow>
-      );
-    }
-
     return (
       <TableRow>
-        <TableCell align="center">Size</TableCell>
-        <TableCell align="center">Price</TableCell>
+        <TableCell align="right">Size</TableCell>
+        <TableCell align="right">Price</TableCell>
+        {isLargeScreen && (
+          <>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Size</TableCell>
+          </>
+        )}
       </TableRow>
     );
   };
