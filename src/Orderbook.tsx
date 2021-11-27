@@ -42,6 +42,8 @@ const updateOrders = (
     .slice(0, 15);
 };
 
+const sortByPrice = (a: Order, b: Order) => a[0] - b[0];
+
 const socket = new WebSocket("wss://www.cryptofacilities.com/ws/v1");
 
 const OrderBookComponent = () => {
@@ -49,6 +51,7 @@ const OrderBookComponent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Event | null>(null);
   const [orders, setOrders] = useState<OrderBook>({ asks: [], bids: [] });
+  const isLargeScreen = useMediaQuery("(min-width:600px)");
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,7 +70,8 @@ const OrderBookComponent = () => {
   useEffect(() => {
     setLoading(true);
 
-    socket.onopen = () =>
+    socket.onopen = () => {
+      console.log("on open");
       socket.send(
         JSON.stringify({
           event: "subscribe",
@@ -75,6 +79,7 @@ const OrderBookComponent = () => {
           product_ids: ["PI_XBTUSD"],
         })
       );
+    };
     setLoading(false);
     return () => {
       socket.close();
@@ -89,7 +94,13 @@ const OrderBookComponent = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
-  const isLargeScreen = useMediaQuery("(min-width:600px)");
+  if (loading && !error) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Something went wrong...</div>;
+  }
 
   const tableHeaders = () => {
     if (isLargeScreen) {
@@ -113,8 +124,8 @@ const OrderBookComponent = () => {
 
   const tableRows = () => {
     if (isLargeScreen) {
-      const sortedAndReversedBids = orders.bids.sort().reverse();
-      const sortedAsks = orders.asks.sort();
+      const sortedAndReversedBids = orders.bids.sort(sortByPrice).reverse();
+      const sortedAsks = orders.asks.sort(sortByPrice);
 
       const sorter = new Array(
         Math.max(orders.asks.length, orders.bids.length)
@@ -149,7 +160,7 @@ const OrderBookComponent = () => {
     return (
       <TableBody>
         {orders.asks
-          .sort()
+          .sort(sortByPrice)
           .reverse()
           .map(([price, size], idx: number) => (
             <TableRow key={idx} style={{ border: 0 }}>
@@ -160,7 +171,7 @@ const OrderBookComponent = () => {
             </TableRow>
           ))}
         {orders.bids
-          .sort()
+          .sort(sortByPrice)
           .reverse()
           .map(([price, size], idx: number) => (
             <TableRow key={idx} style={{ border: 0 }}>
@@ -173,14 +184,6 @@ const OrderBookComponent = () => {
       </TableBody>
     );
   };
-
-  if (loading && !error) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Something went wrong...</div>;
-  }
 
   return (
     <>
